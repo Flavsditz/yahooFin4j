@@ -1,6 +1,6 @@
 package org.fdiez.usecases;
 
-import org.fdiez.datalayer.StockQuote;
+import org.fdiez.datalayer.Stock;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -10,10 +10,10 @@ public class StockUseCaseTest {
 
     @Test
     public void validTickerReturnStockQuoteForTicker() {
-        QuoteUseCase useCase = new StockUseCase();
+        QuoteUseCase useCase = new SingleStockUseCase();
 
         final String tslaTicker = "TSLA";
-        StockQuote stockQuote = useCase.getQuote(tslaTicker);
+        Stock stockQuote = useCase.getQuote(tslaTicker);
 
         assertThat(stockQuote.getTicker(), is(tslaTicker));
     }

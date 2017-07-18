@@ -1,11 +1,11 @@
 package org.fdiez.globals;
 
-import org.fdiez.gateways.InternetGateway;
+import org.fdiez.gateways.DataGateway;
 
 public class Context {
-    private static InternetGateway internetGatewayMapper = new InternetGateway();
+    private static DataGateway internetGatewayMapper = new DataGateway();
 
-    public static InternetGateway getInternetGatewayMapper() {
+    public static DataGateway getInternetGatewayMapper() {
         return internetGatewayMapper;
     }
 }

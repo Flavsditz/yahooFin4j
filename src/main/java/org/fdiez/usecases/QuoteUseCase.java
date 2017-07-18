@@ -1,7 +1,7 @@
 package org.fdiez.usecases;
 
-import org.fdiez.datalayer.StockQuote;
+import org.fdiez.datalayer.Stock;
 
 public interface QuoteUseCase {
-    StockQuote getQuote(String ticker);
+    Stock getQuote(String ticker);
 }
