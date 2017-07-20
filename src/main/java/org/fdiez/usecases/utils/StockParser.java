@@ -1,4 +1,4 @@
-package org.fdiez.parser;
+package org.fdiez.usecases.utils;
 
 import org.fdiez.gateways.utils.QuotesProperty;
 import org.fdiez.gateways.utils.StockProperties;
