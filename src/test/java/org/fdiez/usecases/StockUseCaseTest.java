@@ -16,14 +16,15 @@ public class StockUseCaseTest {
     @BeforeClass
     public void setUpBeforeClass() {
         context = Mockito.mock(Context.class);
+//        Mockito.when(context.getInternetGatewayMapper()).then()
     }
 
     @Test
     public void validTickerReturnStockQuoteForTicker() {
-        QuoteUseCase useCase = new SingleStockUseCase(context);
+        SingleUseCase useCase = new SingleStockUseCase(context);
 
         final String tslaTicker = "TSLA";
-        Stock stockQuote = useCase.getQuote(tslaTicker);
+        Stock stockQuote = useCase.getValue(tslaTicker);
 
         assertThat(stockQuote.getTicker(), is(tslaTicker));
     }

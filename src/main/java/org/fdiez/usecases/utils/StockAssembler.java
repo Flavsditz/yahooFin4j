@@ -53,7 +53,7 @@ public class StockAssembler {
 
         //TODO: how to better represent these?
         //        builder.withTimeZone(ExchangeTimeZone.getStockTimeZone(symbol))
-        //        .withLastTradeTime(parseDateTime(map.get(QuotesProperty.LAST_TRADE_DATE), map.get(QuotesProperty.LAST_TRADE_TIME), quote.getTimeZone()));
+        //        .withLastTradeTime(parseDateTime(map.getLatest(QuotesProperty.LAST_TRADE_DATE), map.getLatest(QuotesProperty.LAST_TRADE_TIME), quote.getTimeZone()));
 
 
         return builder.build();

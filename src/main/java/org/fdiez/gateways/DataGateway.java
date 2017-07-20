@@ -46,4 +46,10 @@ public class DataGateway {
 
         return result;
     }
+
+    public List<String> getHistoricalQuote() {
+
+
+        return null;
+    }
 }

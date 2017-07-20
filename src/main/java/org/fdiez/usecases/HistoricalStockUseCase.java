@@ -2,33 +2,30 @@ package org.fdiez.usecases;
 
 import org.fdiez.datalayer.Stock;
 import org.fdiez.gateways.DataGateway;
-import org.fdiez.gateways.utils.QuotesProperty;
 import org.fdiez.globals.Context;
+import org.fdiez.globals.QueryInterval;
 import org.fdiez.usecases.utils.StockAssembler;
 import org.fdiez.usecases.utils.StockParser;
 
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.List;
 
-
-public class SingleStockUseCase implements SingleUseCase {
+public class HistoricalStockUseCase implements HistoricalUseCase {
 
     private final StockParser stockParser;
     private final DataGateway internetGatewayMapper;
     private final StockAssembler stockAssembler;
 
-    public SingleStockUseCase(Context context) {
+    public HistoricalStockUseCase(Context context) {
         this.internetGatewayMapper = context.getInternetGatewayMapper();
         this.stockParser = context.getStockParser();
         this.stockAssembler = context.getStockAssembler();
     }
 
     @Override
-    public Stock getValue(String ticker) {
-        List<String> receivedData = internetGatewayMapper.getSingleQuote(ticker);
+    public List<Stock> getValues(String ticker, LocalDate intialDate, LocalDate endDate, QueryInterval interval) {
+        internetGatewayMapper.getHistoricalQuote();
 
-        final HashMap<QuotesProperty, String> map = stockParser.parseQuote(receivedData);
-
-        return stockAssembler.assemble(map);
+        return null;
     }
 }

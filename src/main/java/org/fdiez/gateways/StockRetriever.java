@@ -2,43 +2,47 @@ package org.fdiez.gateways;
 
 import org.fdiez.datalayer.Stock;
 import org.fdiez.globals.Context;
-import org.fdiez.usecases.QuoteUseCase;
+import org.fdiez.globals.QueryInterval;
+import org.fdiez.usecases.HistoricalStockUseCase;
+import org.fdiez.usecases.HistoricalUseCase;
 import org.fdiez.usecases.SingleStockUseCase;
+import org.fdiez.usecases.SingleUseCase;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
-public class StockRetriever {
-    public static Stock get(String ticker) {
-        QuoteUseCase useCase = new SingleStockUseCase(Context.getInstance());
-        return useCase.getQuote(ticker);
+public abstract class StockRetriever {
+    final String ticker;
+
+    public StockRetriever(String ticker) {
+        this.ticker = ticker;
     }
 
-    public static List<Stock> getTTM(String ticker) {
-        return null;
+    public Stock getLatest() {
+        SingleUseCase useCase = new SingleStockUseCase(Context.getInstance());
+        return useCase.getValue(ticker);
     }
 
-    public static List<Stock> getLast(String ticker, Period period) {
-
-        return null;
+    public List<Stock> getTTM() {
+        return getLast(Period.ofMonths(12));
     }
 
-    public static List<Stock> getFromNowUntil(String ticker, LocalDate initialDate) {
-        return null;
+    public List<Stock> getLast(Period period) {
+        LocalDate endDate = LocalDate.now();
+        LocalDate initialDate = endDate.minus(period);
+        return getFromUntil(initialDate, endDate);
     }
 
-    public static List<Stock> getFromUntil(String ticker, LocalDate initialDate, LocalDate endDate) {
-        return null;
+    public List<Stock> getFromUntilNow(LocalDate initialDate) {
+        LocalDate endDate = LocalDate.now();
+        return getFromUntil(initialDate, endDate);
     }
 
+    abstract List<Stock> getFromUntil(LocalDate initialDate, LocalDate endDate);
 
-
-
-
-    public static void main(String[] args) {
-        final Stock stock = get("TSLA");
-
-        System.out.println("stock = " + stock);
+    List<Stock> makeHistoricalQuery(LocalDate initialDate, LocalDate endDate, QueryInterval interval) {
+        HistoricalUseCase useCase = new HistoricalStockUseCase(Context.getInstance());
+        return useCase.getValues(ticker, initialDate, endDate, interval);
     }
 }
