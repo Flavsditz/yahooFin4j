@@ -1,13 +1,18 @@
 package org.fdiez.gateways.utils;
 
+import org.fdiez.globals.QueryInterval;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.fdiez.gateways.utils.QuotesProperty.SYMBOL;
+import static org.fdiez.globals.SystemProperties.HISTORICAL_QUOTES_BASE_URL;
 import static org.fdiez.globals.SystemProperties.QUOTES_BASE_URL;
 
 public class UrlBuilder {
@@ -20,6 +25,10 @@ public class UrlBuilder {
 
         String url = QUOTES_BASE_URL + "?" + convertToURLParameters(params);
 
+        return createURLObject(url);
+    }
+
+    private static URL createURLObject(String url) {
         // TODO: let's not return a null maybe?
         URL request = null;
         try {
@@ -64,5 +73,25 @@ public class UrlBuilder {
             sb.append(String.format("%s=%s", key, value));
         }
         return sb.toString();
+    }
+
+    public static URL getHistoricalStockUrl(String ticker, LocalDate initialDate, LocalDate endDate, QueryInterval interval) {
+        Map<String, String> params = new LinkedHashMap<String, String>();
+
+        params.put("period1", String.valueOf(Instant.from(initialDate).toEpochMilli() / 1000));
+        params.put("period2", String.valueOf(Instant.from(endDate).toEpochMilli() / 1000));
+        params.put("interval", interval.getTag());
+        params.put("crumb", CrumbManager.getCrumb());
+
+        String encode = ticker;
+        try {
+            encode = URLEncoder.encode(ticker, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            //TODO: logging
+        }
+
+        String url = HISTORICAL_QUOTES_BASE_URL + encode + "?" + convertToURLParameters(params);
+
+        return createURLObject(url);
     }
 }
